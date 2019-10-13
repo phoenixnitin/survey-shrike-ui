@@ -9,16 +9,17 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/home">Home</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="auth.user$| async as user" class="nav-item">
         <a class="nav-link" routerLink="/pre-training">Pre Training</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="auth.user$ | async as user" class="nav-item">
         <a class="nav-link" routerLink="/post-training">Post Training</a>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto">
-      <li *ngIf="authService.user$ | async as user" class="nav-item">
-        <a class="nav-link" routerLink="/">{{user.displayName}}</a>
+    <ul *ngIf="auth.user$ | async as user" class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/"><span *ngIf="user.displayName && user.displayName.length > 0; else showuser">{{user.displayName}}</span>
+        <ng-template #showuser><span>User</span></ng-template></a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -27,7 +28,7 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Logout</a>
+          <a class="dropdown-item" (click)="auth.signOut()">Logout</a>
         </div>
       </li>
     </ul>

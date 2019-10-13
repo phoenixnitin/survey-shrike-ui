@@ -15,4 +15,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
-}
+
+  showLogin() {
+    $('#signin-form').removeClass('hide');
+    $('#signup-form').addClass('hide');
+  }
+
+  showSignup() {
+    $('#signin-form').addClass('hide');
+    $('#signup-form').removeClass('hide');
+  }
+ }

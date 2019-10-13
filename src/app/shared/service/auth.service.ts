@@ -100,16 +100,17 @@ export class AuthService {
   async emailcreateaccount() {
     console.log('hi');
     if (this.config.userCurrentPass == this.config.userRepeatPass) {
-      const credential = await this.afAuth.auth.createUserWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass).then(
-        success => {
-          credential.user.displayName = this.config.displayName;
-          return success;
-        }
-      );
+      const credential = await this.afAuth.auth.createUserWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass);
       return this.afterSignIn(credential);
     } else {
       alert("Password do not match");
     }
+  }
+
+  async emailsignin() {
+    console.log('hi');
+    const credential = await this.afAuth.auth.signInWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass);
+    return this.afterSignIn(credential);
   }
 
   afterSignIn(credential) {
@@ -149,5 +150,9 @@ export class AuthService {
     await this.afAuth.auth.signOut();
     this.isloggedIn = false;
     this.router.navigate(['/home']);
+    this.config.displayName = '';
+    this.config.userEmail = '';
+    this.config.userRepeatPass = '';
+    this.config.userCurrentPass = '';
   }
 }

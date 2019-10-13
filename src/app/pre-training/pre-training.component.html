@@ -1,0 +1,35 @@
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="form-container">
+      <div id="page-1">
+        <div class="form-header">
+          <h2>Event Planning</h2>
+        </div>
+        <form class="" id="form1" (submit)="onsubmitPage1()">
+          <div class="form-group">
+            <h5 class="">Will you be attending the event?</h5>
+            <input type="radio" name="attend" id="attend-yes" value="yes" [(ngModel)]="config.surveyDataPreTraining.attend"/>
+            <label for="attend-yes">Yes</label><br>
+            <input type="radio" name="attend" id="attend-no" value="no" [(ngModel)]="config.surveyDataPreTraining.attend"/>
+            <label for="attend-no">No</label>
+          </div>
+          <div class="form-group">
+            <h5>If you will not be attending the event please explain why?</h5>
+            <textarea name="attend-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining['attend-reason']"></textarea>
+          </div>
+          <div class="form-group">
+            <h5>How did you hear about the event?</h5>
+            <textarea name="event-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining['event-reason']" required></textarea>
+          </div>
+          <div class="form-group">
+            <h5>What topic would you like to learn about or discuss at this event?</h5>
+            <textarea name="topic" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining.topic" ></textarea>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

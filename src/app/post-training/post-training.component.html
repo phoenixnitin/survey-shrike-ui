@@ -1,0 +1,68 @@
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="form-container">
+      <div class="" id="page-2">
+        <div class="form-header"><h2>Training Evaluation</h2></div>
+        <form class="" id="form2" (submit)="onsubmitPage2()">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="training">Training/Course</label>
+            <input type="text" name="training" id="training" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <h5 class="">Overall, how satisfied were you with this training?</h5>
+            <input type="radio" name="satisfied-level" id="satisfied-1" value="1" required/>
+            <label for="satisfied-1">Very Unsatisfied</label><br>
+            <input type="radio" name="satisfied-level" id="satisfied-2" value="2" />
+            <label for="satisfied-2">Unsatisfied</label><br>
+            <input type="radio" name="satisfied-level" id="satisfied-3" value="3" />
+            <label for="satisfied-3">Neutral</label><br>
+            <input type="radio" name="satisfied-level" id="satisfied-4" value="4" />
+            <label for="satisfied-4">Satisfied</label><br>
+            <input type="radio" name="satisfied-level" id="satisfied-5" value="5" />
+            <label for="satisfied-5">Very Satisfied</label>
+          </div>
+          <div class="form-group">
+            <h5>Which of the following words would you use to describe this training? Select all if apply.</h5>
+            <input type="Checkbox" name="Overpriced" value="Overpriced">Overpriced<br>
+            <input type="Checkbox" name="High Quality" value="High Quality">High Quality<br>
+            <input type="Checkbox" name="Useful" value="Useful">Useful<br>
+            <input type="Checkbox" name="Ineffective" value="Ineffective">Ineffective<br>
+            <input type="Checkbox" name="Unique" value="Unique">Unique<br>
+            <input type="Checkbox" name="Poor quality" value="Poor quality">Poor quality<br>
+            <input type="Checkbox" name="Good value for money" value="Good value for money">Good value for money<br>
+          </div>
+          <div class="form-group">
+            <h5 class="">Have you attended this training before?</h5>
+            <input type="radio" name="attend-before" id="attend-before-yes" value="yes" required/>
+            <label for="attend-before-yes">Yes</label><br>
+            <input type="radio" name="attend-before" id="attend-before-no" value="no" />
+            <label for="attend-before-no">No</label>
+          </div>
+          <div class="form-group">
+            <h5>For what reasons did you attend this training?</h5>
+            <textarea name="attend-reason-post" rows="5" cols="50"></textarea>
+          </div>
+          <div class="form-group">
+            <h5 class="">Would you recommend this training to others?</h5>
+            <input type="radio" name="recommend" id="recommend-yes" value="yes" required/>
+            <label for="recommend-yes">Yes</label><br>
+            <input type="radio" name="recommend" id="recommend-no" value="no" />
+            <label for="recommend-no">No</label>
+          </div>
+          <div class="form-group">
+            <h5>Comments</h5>
+            <textarea name="comments" rows="5" cols="50"></textarea>
+          </div>
+          <div>
+            <button class="btn btn-info btn-back" (click)="goToPage1()">Back</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

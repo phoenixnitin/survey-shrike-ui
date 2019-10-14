@@ -50,7 +50,13 @@ export class AuthService {
 
   async googleSignin() {
     const provider = new auth.GoogleAuthProvider();
-    const credential = await this.afAuth.auth.signInWithPopup(provider);
+    const credential = await this.afAuth.auth.signInWithPopup(provider).then(
+      success => {
+        return success;
+      }, failed => {
+        this.toastr.error(failed.message, 'SignIn Failed');
+      }
+    );
     return this.afterSignIn(credential);
   }
 
@@ -59,7 +65,7 @@ export class AuthService {
     const credential = await this.afAuth.auth.signInWithPopup(provider).then(success => {
       return this.afterSignIn(success);
     }, failed => {
-      this.toastr.error("Login Failed");
+      this.toastr.error(failed.message, "SignIn Failed");
       return failed;
     });
   }
@@ -85,7 +91,13 @@ export class AuthService {
 
   async emailsignin() {
     console.log('hi');
-    const credential = await this.afAuth.auth.signInWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass);
+    const credential = await this.afAuth.auth.signInWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass).then(
+      success => {
+        return success;
+      }, failed => {
+        this.toastr.error(failed.message, 'Login Failed');
+      }
+    );
     return this.afterSignIn(credential);
   }
 

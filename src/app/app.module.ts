@@ -24,7 +24,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { PreTrainingComponent } from './pre-training/pre-training.component';
 import { PostTrainingComponent } from './post-training/post-training.component';
-import { NotExistComponent } from './not-exist/not-exist.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {AuthGuardService} from "./shared/service/auth-guard.service";
 import {AuthService} from "./shared/service/auth.service";
@@ -41,7 +40,6 @@ import {HttpClientModule} from "@angular/common/http";
     HomeComponent,
     PreTrainingComponent,
     PostTrainingComponent,
-    NotExistComponent,
     NavbarComponent
   ],
   imports: [

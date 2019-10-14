@@ -65,12 +65,21 @@ export class AuthService {
   }
 
   async emailcreateaccount() {
-    console.log('hi');
-    if (this.config.userCurrentPass == this.config.userRepeatPass) {
-      const credential = await this.afAuth.auth.createUserWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass);
-      return this.afterSignIn(credential);
+    if (this.config.displayName.trim().length > 0 && this.config.userEmail.trim().length > 0) {
+      if (this.config.userCurrentPass == this.config.userRepeatPass) {
+        const credential = await this.afAuth.auth.createUserWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass).then(
+          success => {
+            return success
+          }, failed => {
+            this.toastr.error(failed.message, 'SignUp Failed');
+          }
+        );
+        return this.afterSignIn(credential, this.config.displayName);
+      } else {
+        this.toastr.error("Password do not match");
+      }
     } else {
-      alert("Password do not match");
+      this.toastr.error("Please fill the required fields");
     }
   }
 
@@ -80,7 +89,7 @@ export class AuthService {
     return this.afterSignIn(credential);
   }
 
-  afterSignIn(credential) {
+  afterSignIn(credential, displayname=null) {
     let that= this;
     this.afAuth.auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
       // console.log(idToken);
@@ -93,7 +102,11 @@ export class AuthService {
       that.isloggedIn=false;
       console.log(error);
     });
-    return this.updateUserData(credential.user);
+    if (displayname == null){
+      return this.updateUserData(credential.user);
+    } else {
+      return this.updateUserForEmail(credential.user, displayname);
+    }
   }
 
   isUserLoggedIn(): boolean {
@@ -108,6 +121,20 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
+      photoURL: user.photoURL
+    };
+    this.config.surveyDataPreTraining.email = user.email;
+    this.config.surveyDataPostTraining.email = user.email;
+    return userRef.set(data, { merge: true })
+  }
+  updateUserForEmail(user, displayname) {
+    // Sets user data to firestore on login
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+
+    const data = {
+      uid: user.uid,
+      email: user.email,
+      displayName: displayname,
       photoURL: user.photoURL
     };
     this.config.surveyDataPreTraining.email = user.email;

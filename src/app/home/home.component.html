@@ -22,22 +22,28 @@
       <form (ngSubmit)="auth.emailcreateaccount()" id="signup-form">
         <div class="form-group input-group">
           <div class="input-group-prepend">
+            <span class="input-group-text text-center d-block"> <i class="fa fa-user"></i> </span>
+          </div>
+          <input name="userName" class="form-control" placeholder="Name" type="text" [(ngModel)]="config.displayName" required>
+        </div>
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-envelope"></i> </span>
           </div>
           <input name="userEmail" class="form-control" placeholder="Email address" type="email" [(ngModel)]="config.userEmail" required>
-        </div> <!-- form-group// -->
+        </div>
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-lock"></i> </span>
           </div>
           <input name="currUserPass" class="form-control" placeholder="Create password" type="password" [(ngModel)]="config.userCurrentPass" required>
-        </div> <!-- form-group// -->
+        </div>
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-lock"></i> </span>
           </div>
           <input name="repeatPass" class="form-control" placeholder="Repeat password" type="password" [(ngModel)]="config.userRepeatPass" required>
-        </div> <!-- form-group// -->
+        </div>
         <p *ngIf="config.userCurrentPass != config.userRepeatPass" class="red"><i>* Passwords do not match</i></p>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
@@ -51,16 +57,16 @@
             <span class="input-group-text text-center d-block"> <i class="fa fa-envelope"></i> </span>
           </div>
           <input name="userEmail" class="form-control" placeholder="Email address" type="email" [(ngModel)]="config.userEmail" required>
-        </div> <!-- form-group// -->
+        </div>
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-lock"></i> </span>
           </div>
           <input name="currUserPass" class="form-control" placeholder="Password" type="password" [(ngModel)]="config.userCurrentPass" required>
-        </div> <!-- form-group// -->
+        </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-block"> Sign In </button>
-        </div> <!-- form-group// -->
+        </div>
         <p class="text-center">Don't have an account? <a><button class="btn btn-primary btn-sm" (click)="showSignup()">Create Account</button></a> </p>
       </form>
     </article>

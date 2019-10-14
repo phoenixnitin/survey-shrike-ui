@@ -1,12 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   height: 100vh;
-  background-color: #cccccc1c;
   min-width: 750px;
+  background: darkgray;
+  font-family: 'Ubuntu Light';
 }
 .hide {
   display: none !important;
 }
 .red {
   color: red !important;
+}
+.form-container {
+  background: white;
+  padding: 30px 50px;
+  border-radius: 5px;
+  border: 2px solid black;
+  margin: 30px auto;
+}
+.form-header {
+  border-bottom: 2px solid gray;
+  margin-bottom: 20px;
+  font-family: 'cassannet_plusregular';
+}
+h5 {
+  font-family: 'Comic Sans MS';
 }

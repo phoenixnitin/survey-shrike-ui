@@ -19,7 +19,7 @@
       <p class="divider-text">
         <span class="bg-light">OR</span>
       </p>
-      <form (ngSubmit)="auth.emailcreateaccount()" id="signup-form">
+      <form *ngIf="signupForm" (ngSubmit)="auth.emailcreateaccount()" id="signup-form">
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-user"></i> </span>
@@ -51,7 +51,7 @@
         <p class="text-center">Have an account? <a><button class="btn btn-primary btn-sm" (click)="showLogin()">Sign In</button></a> </p>
       </form>
 
-      <form (ngSubmit)="auth.emailsignin()" id="signin-form" class="hide">
+      <form *ngIf="!signupForm" (ngSubmit)="auth.emailsignin()" id="signin-form">
         <div class="form-group input-group">
           <div class="input-group-prepend">
             <span class="input-group-text text-center d-block"> <i class="fa fa-envelope"></i> </span>

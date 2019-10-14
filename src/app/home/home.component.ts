@@ -9,7 +9,7 @@ import {ConfigService} from "../shared/service/config.service";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
+  signupForm: boolean = true;
   constructor(public auth: AuthService, public config: ConfigService) {
   }
 
@@ -21,12 +21,10 @@ export class HomeComponent implements OnInit {
   }
 
   showLogin() {
-    $('#signin-form').removeClass('hide');
-    $('#signup-form').addClass('hide');
+    this.signupForm = false;
   }
 
   showSignup() {
-    $('#signin-form').addClass('hide');
-    $('#signup-form').removeClass('hide');
+    this.signupForm = true;
   }
  }

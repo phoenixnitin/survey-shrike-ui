@@ -15,18 +15,19 @@
           </div>
           <div class="form-group">
             <h5>If you will not be attending the event please explain why?</h5>
-            <textarea name="attend-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining['attend-reason']"></textarea>
+            <textarea name="attend-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining.attendReason"></textarea>
           </div>
           <div class="form-group">
-            <h5>How did you hear about the event?</h5>
-            <textarea name="event-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining['event-reason']" required></textarea>
+            <h5>How did you hear about the event? <span class="red">*</span></h5>
+            <textarea name="event-reason" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining.eventReason"></textarea>
           </div>
           <div class="form-group">
-            <h5>What topic would you like to learn about or discuss at this event?</h5>
+            <h5>What topic would you like to learn about or discuss at this event? <span class="red">*</span></h5>
             <textarea name="topic" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining.topic" ></textarea>
           </div>
           <div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button *ngIf="!config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Submit</button>
+            <button *ngIf="config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Update</button>
           </div>
         </form>
       </div>

@@ -11,17 +11,19 @@ import { switchMap } from 'rxjs/operators';
 import {CookieService} from "ngx-cookie-service";
 import {createUrlResolverWithoutPackagePrefix} from "@angular/compiler";
 import {ConfigService} from "./config.service";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private isloggedIn: boolean;
+  isloggedIn: boolean;
+  checking: boolean = true;
   user$: Observable<User>;
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
-              private router: Router, private cookieService: CookieService, private config: ConfigService) {
+              private router: Router, private cookieService: CookieService, private config: ConfigService, private toastr: ToastrService) {
     if (this.cookieService.check('user')) {
       this.isloggedIn=true;
       this.updateUserData(JSON.parse(this.cookieService.get('user')));
@@ -33,6 +35,8 @@ export class AuthService {
         // Logged in
         if (user) {
           this.isloggedIn=true;
+          this.config.surveyDataPreTraining.email = user.email;
+          this.config.surveyDataPostTraining.email = user.email;
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           // Logged out
@@ -41,42 +45,7 @@ export class AuthService {
         }
       })
     );
-    // this.afAuth.auth.createUserWithEmailAndPassword("alpha@beta.gamma", "pass@345").then(success => {
-    //   console.log(success);
-    // }, rejected => {
-    //   console.log(rejected);
-    // }).catch(function(error) {
-    //   // Handle Errors here.
-    //   let errorCode = error.code;
-    //   let errorMessage = error.message;
-    //   console.log(errorCode, errorMessage);
-    // });
-    // this.afAuth.auth.signInWithEmailAndPassword("alpha@beta.gamma", "pass@345").then(success => {
-    //   console.log(success);
-    //   this.afAuth.auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-    //     // Send token to your backend via HTTPS
-    //     console.log(idToken);
-    //     // ...
-    //   }).catch(function(error) {
-    //     // Handle error
-    //     console.log(error);
-    //   });
-    // }, rejected => {
-    //   console.log(rejected);
-    // }).catch(function(error) {
-    //   // Handle Errors here.
-    //   let errorCode = error.code;
-    //   let errorMessage = error.message;
-    //   console.log(errorCode, errorMessage);
-    // });
-    // this.afAuth.auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-    //   // Send token to your backend via HTTPS
-    //   console.log(idToken);
-    //   // ...
-    // }).catch(function(error) {
-    //   // Handle error
-    //   console.log(error);
-    // });
+    this.afAuth.authState.pipe()
   }
 
   async googleSignin() {
@@ -88,13 +57,11 @@ export class AuthService {
   async facebookSignin() {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider).then(success => {
-      alert('success');
-      return success;
+      return this.afterSignIn(success);
     }, failed => {
-      alert('failed');
+      this.toastr.error("Login Failed");
       return failed;
     });
-    return this.afterSignIn(credential);
   }
 
   async emailcreateaccount() {
@@ -133,7 +100,7 @@ export class AuthService {
     return this.isloggedIn;
   }
 
-  private updateUserData(user) {
+  updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
@@ -143,6 +110,8 @@ export class AuthService {
       displayName: user.displayName,
       photoURL: user.photoURL
     };
+    this.config.surveyDataPreTraining.email = user.email;
+    this.config.surveyDataPostTraining.email = user.email;
     return userRef.set(data, { merge: true })
   }
 

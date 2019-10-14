@@ -5,61 +5,61 @@
         <div class="form-header"><h2>Training Evaluation</h2></div>
         <form class="" id="form2" (submit)="onsubmitPage2()">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="form-control" required>
+            <label for="name">Name <span class="red">*</span></label>
+            <input type="text" name="name" id="name" class="form-control" [(ngModel)]="config.surveyDataPostTraining.name" required>
           </div>
           <div class="form-group">
-            <label for="training">Training/Course</label>
-            <input type="text" name="training" id="training" class="form-control" required>
+            <label for="training">Training/Course <span class="red">*</span></label>
+            <input type="text" name="training" id="training" class="form-control" [(ngModel)]="config.surveyDataPostTraining.training" required>
           </div>
           <div class="form-group">
-            <h5 class="">Overall, how satisfied were you with this training?</h5>
-            <input type="radio" name="satisfied-level" id="satisfied-1" value="1" required/>
+            <h5 class="">Overall, how satisfied were you with this training? <span class="red">*</span></h5>
+            <input type="radio" name="satisfied-level" id="satisfied-1" value="1" [(ngModel)]="config.surveyDataPostTraining.satisfiedLevel" required/>
             <label for="satisfied-1">Very Unsatisfied</label><br>
-            <input type="radio" name="satisfied-level" id="satisfied-2" value="2" />
+            <input type="radio" name="satisfied-level" id="satisfied-2" value="2" [(ngModel)]="config.surveyDataPostTraining.satisfiedLevel"/>
             <label for="satisfied-2">Unsatisfied</label><br>
-            <input type="radio" name="satisfied-level" id="satisfied-3" value="3" />
+            <input type="radio" name="satisfied-level" id="satisfied-3" value="3" [(ngModel)]="config.surveyDataPostTraining.satisfiedLevel"/>
             <label for="satisfied-3">Neutral</label><br>
-            <input type="radio" name="satisfied-level" id="satisfied-4" value="4" />
+            <input type="radio" name="satisfied-level" id="satisfied-4" value="4" [(ngModel)]="config.surveyDataPostTraining.satisfiedLevel"/>
             <label for="satisfied-4">Satisfied</label><br>
-            <input type="radio" name="satisfied-level" id="satisfied-5" value="5" />
+            <input type="radio" name="satisfied-level" id="satisfied-5" value="5" [(ngModel)]="config.surveyDataPostTraining.satisfiedLevel"/>
             <label for="satisfied-5">Very Satisfied</label>
           </div>
           <div class="form-group">
             <h5>Which of the following words would you use to describe this training? Select all if apply.</h5>
-            <input type="Checkbox" name="Overpriced" value="Overpriced">Overpriced<br>
-            <input type="Checkbox" name="High Quality" value="High Quality">High Quality<br>
-            <input type="Checkbox" name="Useful" value="Useful">Useful<br>
-            <input type="Checkbox" name="Ineffective" value="Ineffective">Ineffective<br>
-            <input type="Checkbox" name="Unique" value="Unique">Unique<br>
-            <input type="Checkbox" name="Poor quality" value="Poor quality">Poor quality<br>
-            <input type="Checkbox" name="Good value for money" value="Good value for money">Good value for money<br>
+            <input type="Checkbox" name="Overpriced" value="Overpriced" [(ngModel)]="quality.overpriced" (ngModelChange)="onCheckboxChange()">Overpriced<br>
+            <input type="Checkbox" name="High Quality" value="High Quality" [(ngModel)]="quality.highQuality" (ngModelChange)="onCheckboxChange()">High Quality<br>
+            <input type="Checkbox" name="Useful" value="Useful" [(ngModel)]="quality.useful" (ngModelChange)="onCheckboxChange()">Useful<br>
+            <input type="Checkbox" name="Ineffective" value="Ineffective" [(ngModel)]="quality.ineffective" (ngModelChange)="onCheckboxChange()">Ineffective<br>
+            <input type="Checkbox" name="Unique" value="Unique" [(ngModel)]="quality.unique" (ngModelChange)="onCheckboxChange()">Unique<br>
+            <input type="Checkbox" name="Poor Quality" value="Poor Quality" [(ngModel)]="quality.poorQuality" (ngModelChange)="onCheckboxChange()">Poor quality<br>
+            <input type="Checkbox" name="Good value for money" value="Good value for money" [(ngModel)]="quality.goodValueForMoney" (ngModelChange)="onCheckboxChange()">Good value for money<br>
           </div>
           <div class="form-group">
-            <h5 class="">Have you attended this training before?</h5>
-            <input type="radio" name="attend-before" id="attend-before-yes" value="yes" required/>
+            <h5 class="">Have you attended this training before? <span class="red">*</span></h5>
+            <input type="radio" name="attend-before" id="attend-before-yes" value="yes" [(ngModel)]="config.surveyDataPostTraining.attendBefore" required/>
             <label for="attend-before-yes">Yes</label><br>
-            <input type="radio" name="attend-before" id="attend-before-no" value="no" />
+            <input type="radio" name="attend-before" id="attend-before-no" value="no" [(ngModel)]="config.surveyDataPostTraining.attendBefore"/>
             <label for="attend-before-no">No</label>
           </div>
           <div class="form-group">
-            <h5>For what reasons did you attend this training?</h5>
-            <textarea name="attend-reason-post" rows="5" cols="50"></textarea>
+            <h5>For what reasons did you attend this training? <span class="red">*</span></h5>
+            <textarea name="attend-reason-post" rows="5" cols="50" [(ngModel)]="config.surveyDataPostTraining.attendReasonPost"></textarea>
           </div>
           <div class="form-group">
-            <h5 class="">Would you recommend this training to others?</h5>
-            <input type="radio" name="recommend" id="recommend-yes" value="yes" required/>
+            <h5 class="">Would you recommend this training to others? <span class="red">*</span></h5>
+            <input type="radio" name="recommend" id="recommend-yes" value="yes" [(ngModel)]="config.surveyDataPostTraining.recommend" required/>
             <label for="recommend-yes">Yes</label><br>
-            <input type="radio" name="recommend" id="recommend-no" value="no" />
+            <input type="radio" name="recommend" id="recommend-no" value="no" [(ngModel)]="config.surveyDataPostTraining.recommend"/>
             <label for="recommend-no">No</label>
           </div>
           <div class="form-group">
-            <h5>Comments</h5>
-            <textarea name="comments" rows="5" cols="50"></textarea>
+            <h5>Comments <span class="red">*</span></h5>
+            <textarea name="comments" rows="5" cols="50" [(ngModel)]="config.surveyDataPostTraining.comments"></textarea>
           </div>
           <div>
-            <button class="btn btn-info btn-back" (click)="goToPage1()">Back</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button *ngIf="!config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Submit</button>
+            <button *ngIf="config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Update</button>
           </div>
         </form>
       </div>

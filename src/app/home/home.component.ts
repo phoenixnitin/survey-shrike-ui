@@ -14,6 +14,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    let that=this;
+    window.setInterval(function () {
+      that.auth.checking=false;
+    }, 2000)
   }
 
   showLogin() {

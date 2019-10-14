@@ -6,9 +6,6 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/home">Home</a>
-      </li>
       <li *ngIf="auth.user$| async as user" class="nav-item">
         <a class="nav-link" routerLink="/pre-training">Pre Training</a>
       </li>
@@ -18,7 +15,7 @@
     </ul>
     <ul *ngIf="auth.user$ | async as user" class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/"><span *ngIf="user.displayName && user.displayName.length > 0; else showuser">{{user.displayName}}</span>
+        <a class="nav-link" ><span *ngIf="user.displayName && user.displayName.length > 0; else showuser">{{user.displayName}}</span>
         <ng-template #showuser><span>User</span></ng-template></a>
       </li>
       <li class="nav-item dropdown">
@@ -26,7 +23,7 @@
           Settings
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" routerLink="/home">Home</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" (click)="auth.signOut()">Logout</a>
         </div>

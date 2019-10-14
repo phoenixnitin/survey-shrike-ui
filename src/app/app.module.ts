@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+
+import { ToastrModule } from 'ngx-toastr';
 
 const config = {
   apiKey: "AIzaSyAPOGjpkY2gOW_uL7pvsmQCE0G-CPh4b1Q",
@@ -29,6 +31,8 @@ import {AuthService} from "./shared/service/auth.service";
 import {ConfigService} from "./shared/service/config.service";
 import {CookieService} from "ngx-cookie-service";
 import {AngularFontAwesomeModule} from "angular-font-awesome";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -42,12 +46,16 @@ import {AngularFontAwesomeModule} from "angular-font-awesome";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AppRoutingModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [AuthGuardService, AuthService, ConfigService, CookieService],
   bootstrap: [AppComponent]

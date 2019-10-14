@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router"
 import * as $ from "jquery";
+import {ConfigService} from "../shared/service/config.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-post-training',
@@ -8,26 +10,58 @@ import * as $ from "jquery";
   styleUrls: ['./post-training.component.scss']
 })
 export class PostTrainingComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  quality = {
+    overpriced: false,
+    highQuality: false,
+    useful: false,
+    ineffective: false,
+    unique: false,
+    poorQuality: false,
+    goodValueForMoney: false
+  };
+  qualityMap = {
+    overpriced: 'Overpriced',
+    highQuality: 'High Quality',
+    useful: 'Useful',
+    ineffective: 'Ineffective',
+    unique: 'Unique',
+    poorQuality: 'Poor Quality',
+    goodValueForMoney: 'Good value for money',
+  };
+  constructor(private router: Router, public config: ConfigService, private toastr: ToastrService) {
+    this.config.postTrainingRecordExistFill();
+  }
 
   ngOnInit() {
     $('#form2').submit(function (e) {
       e.preventDefault();
     });
   }
-
   onsubmitPage2() {
-    console.log('hello2');
-    alert('submitted');
-    $('#page-1').removeClass('hide');
-    $('#page-2').addClass('hide');
-    $('#form1').trigger('reset');
-    $('#form2').trigger('reset');
+    let obj = this.config.surveyDataPostTraining;
+    if (obj.name.trim().length > 0 && obj.training.trim().length > 0 && obj.satisfiedLevel.trim().length > 0
+        && obj.attendBefore.trim().length > 0 && obj.attendReasonPost.trim().length > 0 && obj.recommend.trim().length > 0 && obj.comments.trim().length > 0 ) {
+      if (this.config.postTrainingRecordExistCheck) {
+        this.config.updatePostTrainingCreate();
+      } else {
+        this.config.postTrainingCreate();
+      }
+    } else {
+      this.toastr.info("Please fill the required fields.");
+    }
+
   }
-  goToPage1() {
-    console.log('Back');
-    this.router.navigate(['pre-training']);
+  onCheckboxChange() {
+    let q = "";
+    for (let key in this.quality) {
+      if (this.quality[key] == true) {
+        q += this.qualityMap[key] + ','
+      }
+    }
+    if (q.length > 0) {
+      q = q.substring(0, q.length - 1)
+    }
+    this.config.surveyDataPostTraining.quality = q;
   }
 
 }

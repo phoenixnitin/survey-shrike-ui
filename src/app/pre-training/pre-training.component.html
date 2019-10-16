@@ -26,8 +26,9 @@
             <textarea name="topic" rows="5" cols="50" [(ngModel)]="config.surveyDataPreTraining.topic" ></textarea>
           </div>
           <div>
-            <button *ngIf="!config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Submit</button>
-            <button *ngIf="config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Update</button>
+            <button *ngIf="!config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary" [disabled]="config.preBtnDisabled">Submit</button>
+            <button *ngIf="config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary" [disabled]="config.preBtnDisabled">Update</button>
+            <i *ngIf="config.preBtnDisabled" class="fa fa-spinner fa-spin loading-data"></i>
           </div>
         </form>
       </div>

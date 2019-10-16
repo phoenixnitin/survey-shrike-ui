@@ -58,8 +58,9 @@
             <textarea name="comments" rows="5" cols="50" [(ngModel)]="config.surveyDataPostTraining.comments"></textarea>
           </div>
           <div>
-            <button *ngIf="!config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Submit</button>
-            <button *ngIf="config.preTrainingRecordExistCheck" type="submit" class="btn btn-primary">Update</button>
+            <button *ngIf="!config.postTrainingRecordExistCheck" type="submit" class="btn btn-primary" [disabled]="config.postBtnDisabled">Submit</button>
+            <button *ngIf="config.postTrainingRecordExistCheck" type="submit" class="btn btn-primary" [disabled]="config.postBtnDisabled">Update</button>
+            <i *ngIf="config.postBtnDisabled" class="fa fa-spinner fa-spin loading-data"></i>
           </div>
         </form>
       </div>

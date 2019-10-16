@@ -32,6 +32,7 @@ import {CookieService} from "ngx-cookie-service";
 import {AngularFontAwesomeModule} from "angular-font-awesome";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
+import {EmailVerifyGuard} from "./shared/service/email-verify-guard.guard";
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import {HttpClientModule} from "@angular/common/http";
     ToastrModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [AuthGuardService, AuthService, ConfigService, CookieService],
+  providers: [AuthGuardService, AuthService, ConfigService, CookieService, EmailVerifyGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

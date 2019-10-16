@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist/survey-shrike-ui",
+
     "ignore": [
       "firebase.json",
       "**/.*",

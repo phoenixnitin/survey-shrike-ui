@@ -20,16 +20,12 @@ export class AuthService {
   isloggedIn: boolean;
   checking: boolean = true;
   user$: Observable<User>;
+  emailVerified = false;
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router, private cookieService: CookieService, private config: ConfigService, private toastr: ToastrService) {
-    if (this.cookieService.check('user')) {
-      this.isloggedIn=true;
-      this.updateUserData(JSON.parse(this.cookieService.get('user')));
-    } else {
-      this.isloggedIn=false;
-    }
+    this.isloggedIn = this.cookieService.check('user');
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         // Logged in
@@ -37,6 +33,7 @@ export class AuthService {
           this.isloggedIn=true;
           this.config.surveyDataPreTraining.email = user.email;
           this.config.surveyDataPostTraining.email = user.email;
+          this.emailVerified = user.emailVerified;
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           // Logged out
@@ -52,6 +49,12 @@ export class AuthService {
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider).then(
       success => {
+        this.emailVerified = success.user.emailVerified;
+        if (!this.emailVerified) {
+          if (success.additionalUserInfo.isNewUser) {
+            this.resendVerificationEmail();
+          }
+        }
         return success;
       }, failed => {
         this.toastr.error(failed.message, 'SignIn Failed');
@@ -63,6 +66,12 @@ export class AuthService {
   async facebookSignin() {
     const provider = new auth.FacebookAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider).then(success => {
+      this.emailVerified = success.user.emailVerified;
+      if (!this.emailVerified) {
+        if (success.additionalUserInfo.isNewUser) {
+          this.resendVerificationEmail();
+        }
+      }
       return this.afterSignIn(success);
     }, failed => {
       this.toastr.error(failed.message, "SignIn Failed");
@@ -75,7 +84,13 @@ export class AuthService {
       if (this.config.userCurrentPass == this.config.userRepeatPass) {
         const credential = await this.afAuth.auth.createUserWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass).then(
           success => {
-            return success
+            this.emailVerified = success.user.emailVerified;
+            if (!this.emailVerified) {
+              if (success.additionalUserInfo.isNewUser) {
+                this.resendVerificationEmail();
+              }
+            }
+            return success;
           }, failed => {
             this.toastr.error(failed.message, 'SignUp Failed');
           }
@@ -90,34 +105,41 @@ export class AuthService {
   }
 
   async emailsignin() {
-    console.log('hi');
+    // console.log('hi');
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(this.config.userEmail, this.config.userCurrentPass).then(
       success => {
+        this.emailVerified = success.user.emailVerified;
         return success;
       }, failed => {
         this.toastr.error(failed.message, 'Login Failed');
       }
     );
-    return this.afterSignIn(credential);
+    return this.afterSignIn(credential, null, true);
   }
 
-  afterSignIn(credential, displayname=null) {
+  afterSignIn(credential, displayname=null, emailSignIn=false) {
     let that= this;
     this.afAuth.auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
       // console.log(idToken);
       that.isloggedIn=true;
       let currentdate = new Date();
       currentdate.setMinutes(currentdate.getMinutes() + 30);
-      that.cookieService.set('user', JSON.stringify(credential.user), currentdate);
+      let jsonStr = JSON.stringify(credential.user);
+      if (displayname != null) {
+        jsonStr = jsonStr.replace('"displayName":null', '"displayName": "'+ displayname + '"');
+      }
+      that.cookieService.set('user', jsonStr, currentdate);
     }).catch(function(error) {
       // Handle error
       that.isloggedIn=false;
       console.log(error);
     });
-    if (displayname == null){
-      return this.updateUserData(credential.user);
-    } else {
-      return this.updateUserForEmail(credential.user, displayname);
+    if (emailSignIn == false) {
+      if (displayname == null){
+        return this.updateUserData(credential.user);
+      } else {
+        return this.updateUserForEmail(credential.user, displayname);
+      }
     }
   }
 
@@ -133,7 +155,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified
     };
     this.config.surveyDataPreTraining.email = user.email;
     this.config.surveyDataPostTraining.email = user.email;
@@ -147,20 +170,48 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: displayname,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified
     };
     this.config.surveyDataPreTraining.email = user.email;
     this.config.surveyDataPostTraining.email = user.email;
     return userRef.set(data, { merge: true })
   }
 
+  resendVerificationEmail() {
+    this.afAuth.auth.currentUser.sendEmailVerification().then(success => {
+      this.toastr.success("Verification e-mail sent successfully.");
+    }, failed => {
+      this.toastr.error(failed.message, "Error Sending Verification E-Mail");
+    });
+  }
+
   async signOut() {
     await this.afAuth.auth.signOut();
     this.isloggedIn = false;
+    this.emailVerified = false;
     this.router.navigate(['/home']);
     this.config.displayName = '';
     this.config.userEmail = '';
     this.config.userRepeatPass = '';
     this.config.userCurrentPass = '';
+    this.config.surveyDataPreTraining = {
+      email: '',
+      attend: 'yes',
+      attendReason: '',
+      eventReason: '',
+      topic: ''
+    };
+    this.config.surveyDataPostTraining = {
+      email: '',
+      name: '',
+      training: '',
+      satisfiedLevel: '5',
+      quality: '',
+      attendBefore: 'no',
+      attendReasonPost: '',
+      recommend: 'yes',
+      comments: ''
+    };
   }
 }

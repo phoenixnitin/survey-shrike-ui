@@ -1,9 +1,20 @@
 <div class="container">
 <div class="card bg-light">
   <article *ngIf="auth.user$ | async as user; else checking" class="card-body mx-auto" style="max-width: 400px;">
-    <h3 class="card-title mt-3 text-center">Welcome<br><span *ngIf="user.displayName && user.displayName.length > 0; else showuser">{{user.displayName}}</span>
-      <ng-template #showuser><span>User</span></ng-template></h3><br><br>
-    <h5 class="card-title mt-3 text-center">Your email is : {{user.email}}</h5>
+    <h3 class="card-title mt-3 text-center name-box"><span class="text-off-white">Welcome</span><br><span *ngIf="user.displayName && user.displayName.length > 0; else showuser">{{user.displayName}}</span>
+      <ng-template #showuser><span>User</span></ng-template></h3><br>
+    <div class="text-center verify-email-box-alter" *ngIf="auth.emailVerified; else verifyEmail">
+      <button class="btn btn-danger" routerLink="/pre-training">Pre Training</button><span class="offset-1"></span>
+      <button class="btn btn-danger" routerLink="/post-training">Post Training</button>
+    </div>
+    <ng-template #verifyEmail>
+      <div class="text-center verify-email-box">
+        <h5>Please verify your email to continue.</h5><br>
+        <h5>Click <button class="btn btn-danger" (click)="auth.resendVerificationEmail()">Here</button> to resend verify link to your email address.</h5>
+      </div>
+    </ng-template>
+    <br>
+    <h5 class="card-title mt-3 text-center email-box">Your email is : {{user.email}}</h5>
   </article>
   <ng-template #checking>
     <article *ngIf="auth.checking; else signup" class="card-body mx-auto" style="max-width: 400px;">

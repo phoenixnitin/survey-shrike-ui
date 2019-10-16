@@ -6,10 +6,10 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li *ngIf="auth.user$| async as user" class="nav-item">
+      <li *ngIf="auth.emailVerified && auth.user$| async as user" class="nav-item">
         <a class="nav-link" routerLink="/pre-training">Pre Training</a>
       </li>
-      <li *ngIf="auth.user$ | async as user" class="nav-item">
+      <li *ngIf="auth.emailVerified && auth.user$ | async as user" class="nav-item">
         <a class="nav-link" routerLink="/post-training">Post Training</a>
       </li>
     </ul>

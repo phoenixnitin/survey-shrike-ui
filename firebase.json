@@ -1,11 +1,21 @@
 {
-  "hosting": {
-    "public": "dist/survey-shrike-ui",
-
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
+  "hosting": [
+    {
+      "public": "dist/survey-shrike-ui",
+      "site": "surveyshrike",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }, {
+      "public": "dist/survey-shrike-ui",
+      "site": "survey-255712",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  ]
 }

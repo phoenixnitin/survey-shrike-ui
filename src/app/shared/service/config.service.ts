@@ -28,9 +28,9 @@ export class ConfigService {
   userEmail: string = '';
   userCurrentPass: string = '';
   userRepeatPass: string = '';
-  protocol = "https://";
-  server = 'survey-shrike-spring.cfapps.io';
-  serverPort = '443';
+  protocol = "http://";
+  server = 'localhost';
+  serverPort = '8080';
   preTrainingRecordExistCheck;
   postTrainingRecordExistCheck;
   preBtnDisabled = false;
